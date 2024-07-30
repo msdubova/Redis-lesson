@@ -8,6 +8,30 @@ import (
 )
 
 func main() {
+	storage := storage{}
+	cachedStorage := &cachedStorage{
+		storage: storage,
+		client: redis.NewClient(&redis.Options{
+			Addr: "localhost:6379",
+		}),
+	}
+
+	app := app{
+		storage: cachedStorage,
+	}
+
+	p, err := app.getMyProfile(token{userID: 1})
+
+	log.Info().Msgf("Got user by id 1: %v, %v", p, err)
+	p, err = app.getMyProfile(token{userID: 1})
+
+	log.Info().Msgf("Got user by id 1: %v, %v", p, err)
+	p, err = app.getMyProfile(token{userID: 1})
+
+	log.Info().Msgf("Got user by id 1: %v, %v", p, err)
+}
+
+func example() {
 	client := redis.NewClient(&redis.Options{
 		Addr: "localhost:6379",
 	})
